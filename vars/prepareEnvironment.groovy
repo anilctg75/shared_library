@@ -1,15 +1,15 @@
-#!/usr/bin/env groovy
-
 def call(String projectDir = '.') {
-  sh """
-  set -e
-  echo "led-shared: preparing environment for ${projectDir}"
-  if command -v sudo >/dev/null 2>&1; then
-    sudo apt-get update
-    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends cmake clang-format gcc-arm-none-eabi binutils-arm-none-eabi build-essential || true
-  else
-    apt-get update || true
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends cmake clang-format gcc-arm-none-eabi binutils-arm-none-eabi build-essential || true
-  fi
-  """
+    sh """
+    set -e
+
+    echo "Preparing environment for ${projectDir}"
+
+  
+    sudo dnf install -y cmake git gcc gcc-c++ make clang clang-tools-extra
+
+    export PATH=/opt/arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi/bin:\$PATH
+
+    cmake --version
+    arm-none-eabi-gcc --version
+    """
 }
